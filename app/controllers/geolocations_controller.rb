@@ -4,7 +4,7 @@ class GeolocationsController < ApplicationController
   require "open-uri"
   before_action :authenticate_user
 
-  # POST /geolocation
+  # POST /geolocations
   def create
     if find_geolocation_data[:success] != false
       result = GeolocationService.call(params: params, geolocation_data: find_geolocation_data, user: current_user)

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
-  before_action :authenticate_user, except: [:create, :generate_token]
-
   protected
 
   def authenticate_user
@@ -17,6 +15,8 @@ class ApplicationController < ActionController::API
       render json: { errors: e.message }, status: :unauthorized
     end
   end
+
+  alias current_user authenticate_user
 
   def formatted_url(ip_address)
     "#{ENV['service_provider_url']}/#{ip_address}?access_key=#{ENV['access_key']}"

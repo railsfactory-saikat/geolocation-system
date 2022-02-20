@@ -2,5 +2,6 @@
 
 class Geolocation < ApplicationRecord
   belongs_to :user
-  validate :ip, presence: true, uniqueness: true
+  has_one :location, dependent: :destroy
+  validates :ip, presence: true, uniqueness: true
 end

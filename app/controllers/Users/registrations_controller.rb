@@ -5,7 +5,8 @@ module Users
     # POST /users
     def create
       user = User.new(user_params)
-      render json: user.save ? "User created successfully." : "User creation failed!"
+      message = user.save ? "User created successfully." : "failed! #{user.errors.full_messages.to_sentence}"
+      render json: { status: message }
     end
 
     private

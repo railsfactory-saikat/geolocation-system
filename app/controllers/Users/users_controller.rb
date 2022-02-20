@@ -2,7 +2,7 @@
 
 module Users
   class UsersController < ApplicationController
-    # GET /users/generate_token
+    # GET /generate_token
     def generate_token
       user = User.find_by(email: params[:email])
       if user&.valid_password?(params[:password])

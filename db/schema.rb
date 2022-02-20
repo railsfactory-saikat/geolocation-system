@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_19_205825) do
+ActiveRecord::Schema.define(version: 2022_02_20_074309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2022_02_19_205825) do
   create_table "geolocations", force: :cascade do |t|
     t.bigint "user_id"
     t.string "ip", null: false
-    t.string "type"
+    t.string "ip_type"
     t.string "continent_code"
     t.string "continent_name"
     t.string "country_code"
@@ -34,6 +34,21 @@ ActiveRecord::Schema.define(version: 2022_02_19_205825) do
     t.index ["user_id"], name: "index_geolocations_on_user_id"
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.bigint "geolocation_id"
+    t.integer "geoname_id", null: false
+    t.string "capital"
+    t.string "languages"
+    t.string "country_flag"
+    t.string "country_flag_emoji"
+    t.string "country_flag_emoji_unicode"
+    t.integer "calling_code"
+    t.boolean "is_eu"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["geolocation_id"], name: "index_locations_on_geolocation_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -47,4 +62,5 @@ ActiveRecord::Schema.define(version: 2022_02_19_205825) do
   end
 
   add_foreign_key "geolocations", "users"
+  add_foreign_key "locations", "geolocations"
 end

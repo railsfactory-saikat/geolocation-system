@@ -16,6 +16,15 @@ gem "bootsnap", ">= 1.1.0", require: false
 
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
+  gem "rspec-rails", "~> 3.7"
+  gem "factory_bot_rails", "~> 6.1.0", require: false
+  gem "faker", "~> 2.13.0", require: false
+end
+
+group :test do
+  # Ensure a clean state for testing
+  gem "database_cleaner", "~> 1.8.5"
+  gem "shoulda-matchers", "~> 4.4.1"
 end
 
 group :development do

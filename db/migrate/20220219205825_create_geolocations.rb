@@ -5,7 +5,7 @@ class CreateGeolocations < ActiveRecord::Migration[5.2]
     create_table :geolocations do |t|
       t.belongs_to :user, foreign_key: true
       t.string :ip, null: false, unique: true
-      t.string :type
+      t.string :ip_type
       t.string :continent_code
       t.string :continent_name
       t.string :country_code

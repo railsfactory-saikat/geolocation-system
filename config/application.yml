@@ -1,4 +1,2 @@
-access_key: "70ac969961cab4affb71ecd8bcd17696"
+access_key: "71a709cd48bae49f3d593b5a5660d8fd"
 service_provider_url: "http://api.ipstack.com"
-database_username: postgres
-database_password: root

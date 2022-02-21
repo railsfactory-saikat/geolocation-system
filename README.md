@@ -14,7 +14,7 @@ API end-points are as follows
 
 Below APIs are secured. Pass your token as Authorization > Bearer Token to get response
 
-* POST '/geolocations', params { IPV4 address } -> Save the IP details
+* POST '/geolocations', params { ip = IPV4 address } -> Save the IP details
 * GET '/geolocations' -> List all your saved geolocations
 * GET '/geolocations/:id' -> See details of a geolocation
 * DELETE '/geolocations/:id' -> Delete a saved geolocation

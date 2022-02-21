@@ -1,8 +1,10 @@
-# This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'spec_helper'
-ENV['RAILS_ENV'] ||= 'test'
+# frozen_string_literal: true
 
-require File.expand_path('../config/environment', __dir__)
+# This file is copied to spec/ when you run 'rails generate rspec:install'
+require "spec_helper"
+ENV["RAILS_ENV"] ||= "test"
+
+require File.expand_path("../config/environment", __dir__)
 
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
@@ -48,26 +50,21 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.clean_with(:truncation, pre_count: true)
   end
-  config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
-  end
-  config.before(:each, :js => true) do
+
+  # Sets the default database cleaning strategy to be transactions === fast
+  config.before { DatabaseCleaner.strategy = :transaction }
+
+  config.before(:each, use_truncation: true) { DatabaseCleaner.strategy = :truncation }
+
+  # Capybara tests run in a test server process so transactions won't work
+  config.before(:each, type: :feature) do
     DatabaseCleaner.strategy = :truncation
+    # page.driver.reset!
   end
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
-  config.after(:each) do
-    DatabaseCleaner.clean
-  end
-  config.before(:all) do
-    DatabaseCleaner.start
-  end
-  config.after(:all) do
-    DatabaseCleaner.clean
-  end
+
+  config.include FactoryBot::Syntax::Methods
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and

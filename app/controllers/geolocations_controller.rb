@@ -44,7 +44,7 @@ class GeolocationsController < ApplicationController
   end
 
   def status_msg(result)
-    result.success? ? "Saved successfully" : "Failed to save"
+    result.success? ? "Geolocation Saved successfully" : "Failed to save the Geolocation"
   end
 
   def status_code(result)

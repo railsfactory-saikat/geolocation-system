@@ -5,8 +5,11 @@ module Users
     # POST /users
     def create
       user = User.new(user_params)
-      message = user.save ? "User created successfully." : "failed! #{user.errors.full_messages.to_sentence}"
-      render json: { status: message }
+      if user.save
+        render json: { status: "User created successfully." }
+      else
+        render json: { status: "failed! #{user.errors.full_messages.to_sentence}" }, status: :unprocessable_entity
+      end
     end
 
     private

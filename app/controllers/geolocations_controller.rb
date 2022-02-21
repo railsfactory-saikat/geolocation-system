@@ -10,7 +10,7 @@ class GeolocationsController < ApplicationController
       result = GeolocationService.call(params: params, geolocation_data: find_geolocation_data, user: current_user)
       render json: { status: status_msg(result), geolocation_data: find_geolocation_data }, status: status_code(result)
     else
-      render json: { error: "Failed to save the Geolocation" }, status: :unprocessable_entity
+      render json: { error: find_geolocation_data[:error][:info] }, status: :unprocessable_entity
     end
   end
 

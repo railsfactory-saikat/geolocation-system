@@ -3,14 +3,15 @@
 class GeolocationsController < ApplicationController
   require "open-uri"
   before_action :authenticate_user
+  before_action :find_geolocation_data, only: :create
 
   # POST /geolocations
   def create
-    if find_geolocation_data[:success] != false
-      result = GeolocationService.call(params: params, geolocation_data: find_geolocation_data, user: current_user)
-      render json: { status: status_msg(result), geolocation_data: find_geolocation_data }, status: status_code(result)
+    if params[:success] != false
+      result = GeolocationService.call(params: params, user: current_user)
+      render json: { status: status_msg(result), geolocation_data: @geo_data }, status: status_code(result)
     else
-      render json: { error: find_geolocation_data[:error][:info] }, status: :unprocessable_entity
+      render json: { error: params[:error][:info] }, status: :unprocessable_entity
     end
   end
 
@@ -38,9 +39,9 @@ class GeolocationsController < ApplicationController
   private
 
   def find_geolocation_data
-    geo_data = JSON.parse(URI.parse(formatted_url(params[:ip])).read).deep_symbolize_keys
-    geo_data[:ip_type] = geo_data.delete :type
-    geo_data
+    @geo_data = JSON.parse(URI.parse(formatted_url(params[:ip])).read).deep_symbolize_keys
+    @geo_data[:ip_type] = @geo_data.delete :type
+    params.merge!(@geo_data)
   end
 
   def status_msg(result)

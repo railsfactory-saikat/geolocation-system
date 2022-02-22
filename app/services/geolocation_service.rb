@@ -2,10 +2,9 @@
 
 class GeolocationService
   include Interactor
-  delegate :params, :geolocation_data, :user, :geo_id, :before_save, to: :context
+  delegate :params, :user, :geo_id, :before_save, to: :context
 
   def call
-    params.merge!(geolocation_data)
     geolocation = user.geolocations.new(geolocations_params)
     return geolocation.create_location(location_params) if geolocation.save
 
